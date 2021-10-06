@@ -3813,7 +3813,7 @@ void tr_torrentSetQueueStartCallback(tr_torrent* torrent, void (* callback)(tr_t
 static bool renameArgsAreValid(char const* oldpath, char const* newname)
 {
     return !tr_str_is_empty(oldpath) && !tr_str_is_empty(newname) && strcmp(newname, ".") != 0 && strcmp(newname, "..") != 0 &&
-        strchr(newname, TR_PATH_DELIMITER) == NULL;
+        strpbrk(newname, "\\/:*?\"<>|") == NULL;
 }
 
 static tr_file_index_t* renameFindAffectedFiles(tr_torrent* tor, char const* oldpath, size_t* setme_n)

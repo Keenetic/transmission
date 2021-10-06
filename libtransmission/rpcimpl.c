@@ -1595,6 +1595,11 @@ static char const* torrentSetLocation(tr_session* session, tr_variant* args_in, 
         return "new location path is not absolute";
     }
 
+    if (strpbrk(location, "\\:*?\"<>|") != NULL)
+    {
+        return "illegal characters";
+    }
+
     if (!isValidDir(location, 0))
     {
         return "invalid download directory";
