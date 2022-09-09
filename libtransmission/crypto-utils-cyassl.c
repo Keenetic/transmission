@@ -52,6 +52,17 @@ struct tr_dh_ctx
 
 #define MY_NAME "tr_crypto_utils"
 
+bool
+tr_cryptoInit (void)
+{
+    return true;
+}
+
+void
+tr_cryptoFree (void)
+{
+}
+
 static void log_cyassl_error(int error_code, char const* file, int line)
 {
     if (tr_logLevelIsActive(TR_LOG_ERROR))

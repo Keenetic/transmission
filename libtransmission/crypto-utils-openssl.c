@@ -20,6 +20,11 @@
 #include <openssl/rand.h>
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+#include <openssl/provider.h>
+/* Ignore deprecated function warnings since OpenSSL 3.0.0 */
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 #include "transmission.h"
 #include "crypto-utils.h"
@@ -35,6 +40,25 @@
 ***/
 
 #define MY_NAME "tr_crypto_utils"
+
+bool
+tr_cryptoInit (void)
+{
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+    if (OSSL_PROVIDER_load(NULL, "legacy") == NULL ||
+        OSSL_PROVIDER_load(NULL, "default") == NULL)
+    {
+        return false;
+    }
+#endif
+
+    return true;
+}
+
+void
+tr_cryptoFree (void)
+{
+}
 
 static void log_openssl_error(char const* file, int line)
 {

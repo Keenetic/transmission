@@ -48,6 +48,17 @@ typedef API (sha1_context) api_sha1_context;
 typedef API (arc4_context) api_arc4_context;
 typedef API (dhm_context) api_dhm_context;
 
+bool
+tr_cryptoInit (void)
+{
+    return true;
+}
+
+void
+tr_cryptoFree (void)
+{
+}
+
 static void log_polarssl_error(int error_code, char const* file, int line)
 {
     if (tr_logLevelIsActive(TR_LOG_ERROR))

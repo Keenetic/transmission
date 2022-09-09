@@ -843,6 +843,7 @@ cleanup:
         tr_sys_path_remove(pid_filename, NULL);
     }
 
+	tr_libraryFree ();
     sd_notify(0, "STATUS=\n");
 
     return 0;
@@ -877,6 +878,12 @@ static bool init_daemon_data(int argc, char* argv[], struct daemon_data* data, b
     if (!loaded)
     {
         printMessage(logfile, TR_LOG_ERROR, MY_NAME, "Error loading config file -- continue anyway.", __FILE__, __LINE__);
+    }
+
+    if (!tr_libraryInit ())
+    {
+        printMessage (logfile, TR_LOG_ERROR, MY_NAME, "Unable to initialize the torrent library -- exiting.", __FILE__, __LINE__);
+        goto exit_early;
     }
 
     if (dumpSettings)
